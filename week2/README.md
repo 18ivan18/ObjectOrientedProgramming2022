@@ -20,7 +20,7 @@ classes, which typically also determine their type."
 ```c++
 struct Point {
     float x, y;
-}
+};
 ```
 
 ### Деклариране на обекти
@@ -67,7 +67,7 @@ Point reflectX(Point p) {
 
 struct Point {
     float x, y;
-}
+};
 
 float euclideanDistance(const Point& q, const Point& p) {
     return sqrt((q.x - p.x) * (q.x - p.x) + (q.y - p.y) * (q.y - p.y));
@@ -94,14 +94,14 @@ int main()
 ```c++
 struct Point {
     float x, y;
-}
+};
 
 struct Triangle {
     char name[1024];
     Point A;
     Point B;
     Point C;
-}
+};
 
 int main() {
     Triangle t = {"Pythagorean triangle", {0, 0}, {3, 0}, {3, 4}};
@@ -115,7 +115,7 @@ int main() {
 ```c++
 struct Point {
     float x = 3.14, y = 5; // default values, if not set they default to the variable default value
-}
+};
 
 int main() {
     Point arr[10]; // 10 Points
@@ -123,7 +123,7 @@ int main() {
     
     std::cout << arr[0].x << " " << arr1[3].y << std::endl;
 
-    delete[] arr2; 
+    delete[] arr1; 
 }
 ```
 
@@ -223,7 +223,7 @@ int main() {
 union ipaddr_t {
     uint32_t addr;
     uint8_t octet[4];
-}
+};
 
 int main () {
     ipadder_t a;
