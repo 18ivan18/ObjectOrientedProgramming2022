@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cassert>
 
 /*
  * Реализирайте клас, представящ времева марка (Timestamp) с полета за часове, минути и секунди.
@@ -9,7 +10,7 @@
 class Timestamp
 {
 public:
-    void set_from_seconds(const unsigned int seconds)
+    void setFromSeconds(const unsigned int seconds)
     {
         // 3750 / 3600 = 1
         // 3750 % 3600 = 150
@@ -24,34 +25,35 @@ public:
 
     void print() const
     {
-        this->pretty_print(this->hours);
+        this->prettyPrint(this->hours);
         std::cout << ":";
-        this->pretty_print(this->minutes);
+        this->prettyPrint(this->minutes);
         std::cout << ":";
-        this->pretty_print(this->hours);
+        this->prettyPrint(this->seconds);
+        std::cout << '\n';
     }
 
     void add(const Timestamp &other)
     {
-        unsigned int seconds_in_first = this->to_seconds();
-        unsigned int second_in_second = other.to_seconds();
+        unsigned int seconds_in_first = this->toSeconds();
+        unsigned int second_in_second = other.toSeconds();
 
-        this->set_from_seconds(seconds_in_first + second_in_second);
+        this->setFromSeconds(seconds_in_first + second_in_second);
     }
 
-    unsigned int to_seconds() const
+    unsigned int toSeconds() const
     {
         return this->hours * this->SECONDS_IN_HOUR + this->minutes * this->SECONDS_IN_MINUTE + this->seconds;
     }
 
 private:
-    void pretty_print(unsigned int time_to_print) const
+    void prettyPrint(unsigned int timeToPrint) const
     {
-        if (time_to_print < 10)
+        if (timeToPrint < 10)
         {
             std::cout << "0";
         }
-        std::cout << time_to_print;
+        std::cout << timeToPrint;
     }
     const int SECONDS_IN_HOUR = 3600;
     const int SECONDS_IN_MINUTE = 60;
@@ -62,4 +64,11 @@ private:
 
 int main()
 {
+    Timestamp t1, t2;
+    t1.setFromSeconds(420);
+    t2.setFromSeconds(69);
+    t1.print();
+    t2.print();
+    t1.add(t2);
+    assert(t1.toSeconds() == 489);
 }
