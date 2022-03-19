@@ -1,3 +1,59 @@
+# Coding convensions
+
+## Multiple-word identifier formats
+
+|     name      |  example   |
+| :-----------: | :--------: |
+|   flat case   |  twowords  |
+|  upper case   |  TWOWORDS  |
+| **camelCase** |  twoWords  |
+|  PaskalCase   |  TwoWords  |
+|  snake_case   | two_words  |
+|  kebab-case   | two-words  |
+|  döner\|case  | two\|words |
+
+# Multiple file compilation
+
+> The "compilation" of a program actually consitsts of two major stages.
+
+1. Compile stage
+
+- Syntax checked for correctness.
+- Variables and function calls checked to insure that correct declarations were made and that they match. (Note:& The compiler doesn't need to match function definitions to their calls at this point).
+- Translation into object code. Object code is just a translation of your code file -- it is not an executable program, at this point. (Note: the word "object" in object code does not refer to the definition of "object" that we use to define object-oriented programming. These are different terms.)
+
+2. Linking stage
+
+- Links the object code into an executable program.
+- May involve one or more object code files.
+- The linking stage is the time when function calls are matched up with their definitions, and the compiler checks to make sure it has one, and only one, definition for every function that is called.
+- The end result of linking is usually an executable program.
+
+## Commands for compiling c++ code via terminal with g++ 
+
+> First -> create .o (object files) from every .cpp
+```bash
+g++ -c mycpp.cpp
+g++ -c main.cpp
+
+or 
+
+g++ -c *.cpp # compiles every .cpp file in the directory and creates .o
+```
+
+> Second -> compile all the .o files together
+```bash
+g++ mycpp.o main.o -o myProgram
+
+or
+
+g++ *.o -o myProgram # compiles every .o file together and creates executable
+```
+
+> if there are no errors, you will have `myProgram` as executable file :)
+
+**Rule of thumb:** Only include the header files, not the .cpp files (in the code)
+
 # Разделна компилация
 
 ## Какво е компилация изобщо?
