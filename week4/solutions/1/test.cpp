@@ -1,7 +1,7 @@
 #define DOCTEST_CONFIG_IMPLEMENT_WITH_MAIN
 
 #include "../../../utils/doctest.h"
-#include "Dictionary.cpp"
+#include "Dictionary.h"
 
 TEST_SUITE("Record Tests")
 {

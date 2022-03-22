@@ -4,3 +4,8 @@
 ## execuatables
 *.out
 *.exe
+
+## test coverage
+*.gcov
+*.gcda
+*.gcno

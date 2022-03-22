@@ -1,14 +1,14 @@
 #ifndef TASK_1_DICTIONARY
 #define TASK_1_DICTIONARY
 
-#include "Record.cpp"
+#include "Record.h"
 #define MAX_CAPACITY 500
 
 class Dictionary
 {
 private:
     Record data[MAX_CAPACITY];
-    int size;
+    int size = 0;
 
 public:
     void init(Record *, int);
