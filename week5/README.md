@@ -148,10 +148,6 @@ public:
     Foo(): f{4.2}, d{3,14}, i{69} {} // i will be initialized first, after that d and lastly f
 };
 ```
-## Copy конструктор
-
-
-## Оператор =
 
 
 ## Задача 1
