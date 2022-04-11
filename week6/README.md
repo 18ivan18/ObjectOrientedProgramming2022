@@ -108,6 +108,47 @@ public:
 ```
 
 
+## Предефиниране на оператори
+
+### Syntax
+Overloaded operators are functions with special function names:
+
+## **operator op**
+
+overloaded operator;
+
+op - any of the following operators: `+` `-` `*` `/` `%` `^` `&` `|` `~` `!` `=` `<` `>` `+=` `-=` `*=` `/=` `%=` `^=` `&=` `|=` `<<` `>>` `>>=` `<<=` `==` `!=` `<=` `>=` `<=>` (since C++20) `&&` `||` `++` `--` `,` `->*` `->` `(` `)` `[` `]`
+
+## **operator type**
+
+user-defined conversion function;
+
+Restrictions
+- The operators :: (scope resolution), . (member access), .* (member access through pointer to member), and ?: (ternary conditional) cannot be overloaded.
+- New operators such as **, <>, or &| cannot be created.
+- It is not possible to change the precedence, grouping, or number of operands of operators.
+- The overload of operator -> must either return a raw pointer, or return an object (by reference or by value) for which operator -> is in turn overloaded.
+
+
+## **Stream extraction and insertion**
+The overloads of `operator>>` and `operator<<` that take a `std::istream&` or `std::ostream&` as the left hand argument are known as insertion and extraction operators. Since they take the user-defined type as the right argument (b in a@b), they must be implemented as non-members.
+```c++
+std::ostream& operator<<(std::ostream& os, const T& obj)
+{
+    // write obj to stream
+    return os;
+}
+
+std::istream& operator>>(std::istream& is, T& obj)
+{
+    // read obj from stream
+    if( /* T could not be constructed */ )
+        is.setstate(std::ios::failbit);
+    return is;
+}
+```
+These operators are sometimes implemented as friend functions.
+
 # Задачи 
 ## Задача 1
 
