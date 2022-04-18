@@ -9,3 +9,6 @@
 *.gcov
 *.gcda
 *.gcno
+
+# text files
+*.txt
