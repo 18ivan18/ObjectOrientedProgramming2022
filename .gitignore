@@ -12,3 +12,5 @@
 
 # text files
 *.txt
+*.data
+*.ivan

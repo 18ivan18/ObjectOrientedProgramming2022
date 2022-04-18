@@ -66,13 +66,18 @@ Shop::Shop(std::fstream &is)
     }
 }
 
-Shop::~Shop()
+void Shop::del()
 {
     for (size_t i = 0; i < size; i++)
     {
         delete items[i];
     }
     delete[] items;
+}
+
+Shop::~Shop()
+{
+    del();
 }
 
 std::ostream &operator<<(std::ostream &os, const Shop &s)
@@ -83,4 +88,28 @@ std::ostream &operator<<(std::ostream &os, const Shop &s)
         os << *s.items[i];
     }
     return os;
+}
+
+Shop &Shop::operator=(const Shop &rhs)
+{
+    if (this != &rhs)
+    {
+        del();
+        size = rhs.size;
+        capacity = rhs.capacity;
+        items = new Item *[capacity];
+        for (size_t i = 0; i < size; i++)
+        {
+            items[i] = new Item(*rhs.items[i]);
+        }
+    }
+    return *this;
+}
+
+Shop::Shop(const Shop &s) : capacity{s.capacity}, size{s.size}, items{new Item *[s.size]}
+{
+    for (size_t i = 0; i < size; i++)
+    {
+        items[i] = new Item(*s.items[i]);
+    }
 }
