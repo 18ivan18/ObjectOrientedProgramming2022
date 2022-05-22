@@ -175,6 +175,7 @@ int main()
 
     for (int i = 0; i < shapes.size(); i++)
     {
+        // bad practise, this is not a polymorphic code
         if (shapes[i]->getType() == Shape::Type::RECTANGLE)
         {
             std::cout << "This rectangle's area is: ";

@@ -156,7 +156,58 @@ class C : A, B
 налична информация за превозните средства.
 
 ## Overloading (static polymorphism) vs Overriding
-// TODO:
+
+### Overloading: Same method name but different parameters in the same class
+
+На български език нямаме отделни термини за `Overloading` и `Overriding`. И на двете казваме предефиниране на функции. `Overloading` наричаме още статичен полиморфизъм, защото свързването се случва на ниво компилация. При него имаме едно и също име на методи, които се извикват с различни параметри.  
+```c++
+
+class Processor {
+
+	void process(int i, int j) {
+		std::cout << "Processing two integers:" <<  i << " " << j;
+	}
+
+	void process(std::vector<int> ints,) {
+		std::cout << "Adding integer array:" << Arrays.toString(ints));
+	}
+
+	void process(std::vector<Object> objs) {
+		std::cout << "Adding integer array:" <<  Arrays.toString(objs));
+	}
+};
+```
+### Overriding: Same method signature in both superclass and child class
+
+Тук имаме същата сигратура в базовия клас и класа наследник. Коя от двете функции се извиква зависи от типа на обекта.
+Използваме ключова дума override за да покажем на компилатора, че искаме същата сигнатура като в базовия клас. Ако има несъотвествие имаме компилационна грешка.
+```c++
+class MathProcessor: public Processor {
+
+	
+	void process(int i, int j) override {
+		std::cout << "Sum of integers is " << (i + j);
+	}
+
+	
+	void process(std::vector<int> ints) override {
+		int sum = 0;
+		for (int i : ints) {
+			sum += i;
+		}
+		std::cout << "Sum of integer array elements is " << sum;
+	}
+
+}
+
+//...
+int main() {
+    MathProcessor mp;
+    Processor p;
+    mp.process(5, 6); // Sum of integers is 11 -> mp is of type MathProcessor
+    p.process(5, 6;); // Processing two integers: 5 6 -> p is of type Processor
+}
+```
 # Задача 2
 Да се напише клас `Scooter`, който да наследява `Motorcycle`, но има само 30 конски сили. Да добавя нови
 член-данни - `maxCapacityOfDriver` и `color`. Да се напишат подходящи методи.
