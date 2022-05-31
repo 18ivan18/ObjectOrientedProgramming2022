@@ -168,7 +168,7 @@ class Processor {
 		std::cout << "Processing two integers:" <<  i << " " << j;
 	}
 
-	void process(std::vector<int> ints,) {
+	void process(std::vector<int> ints) {
 		std::cout << "Adding integer array:" << Arrays.toString(ints));
 	}
 
@@ -184,7 +184,6 @@ class Processor {
 ```c++
 class MathProcessor: public Processor {
 
-	
 	void process(int i, int j) override {
 		std::cout << "Sum of integers is " << (i + j);
 	}
