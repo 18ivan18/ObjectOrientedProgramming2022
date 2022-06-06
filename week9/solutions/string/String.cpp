@@ -7,7 +7,7 @@ void String::resize(size_t capacity)
     mCapacity = capacity;
     char *nString = new char[mCapacity];
     strcpy(nString, mString);
-    delete mString;
+    delete[] mString;
     mString = nString;
 }
 
@@ -24,7 +24,7 @@ String &String::operator=(const String &other)
 {
     if (this != &other)
     {
-        delete mString;
+        delete[] mString;
         mSize = other.size();
         mCapacity = mSize;
         mString = new char[mSize + 1];
