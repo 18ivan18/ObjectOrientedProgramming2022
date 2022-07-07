@@ -9,8 +9,7 @@ KNYAML::KNYAML(std::vector<SimplePair *> pairs)
         {
             if (pairs[i] == pairs[j])
             {
-                // must have unique keys
-                throw std::exception();
+                throw std::runtime_error("All values must have unique keys.");
             }
         }
         this->pairs.push_back(pairs[i]->clone());
@@ -34,9 +33,9 @@ KNYAML &KNYAML::operator=(const KNYAML &rhs)
 
 void KNYAML::free()
 {
-    for (SimplePair *&i : pairs)
+    for (size_t i = 0; i < pairs.size(); i++)
     {
-        delete i;
+        delete pairs[i];
     }
 
     pairs.clear();

@@ -9,6 +9,8 @@ class TagPair : virtual public SimplePair
 {
 private:
     void validate() override;
+    static std::string html, br, hr, b, bClosing;
+    const static int dashSize = 20;
 
 protected:
     std::string replaceTags(const std::string &value);

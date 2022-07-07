@@ -57,6 +57,18 @@ How are YOU?
 
 **Бонус:** Да се реализират методи за добавяне и премахване на елемент с константна сложност. 
 
+
+Да се дефинира шаблон на клас `ResizableSet` за множество от уникални елементи от тип Т. Броят на елементите в множеството е произволен и добяването на елемент към него винаги е възможно при наличие на оперативна памет. Копирането на елемент трябва да бъде забранено. 
+
+Да се реализират: 
+
+- метод за добавяне на елемент в множество; ако елементът вече съществува в множеството, методът трябва да извежда грешка с подходящо съобщение;  
+- метод за изтриване на елемент от множество; ако елементът е успешно изтрит от множеството, методът връща стойност true, а в противен случай false. 
+Бонус: Да се реализират методи за добавяне и премахване на елемент с константна сложност. 
+
+Да се реализира специализация на шаблона ResizableSet за модифициран YAML формат от двойки с име KNYAML, който се състои от множество от уникални двойки от типовете, дефинирани в точки А), Б), Г) и Е).  
+Две двойки се считат за равни тогава, когато техните ключове съвпадат. 
+
 # Решения 
 ## Compiled with
 ```
@@ -67,7 +79,7 @@ This is free software; see the source for copying conditions.  There is NO
 warranty; not even for MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
 ```
 
-`./compileAndRun.sh`
+`./compileAndRun.sh` or `./compileAndRun.sh 2> /dev/null` if you don't want to see any errors
 
 which is a script that runs
 
@@ -89,12 +101,37 @@ Ivan
 ```
 ## Expected output
 ```
+Simple Pair must begin with small letter
 username: My name is Ivan
+Interpolation Pair must contain atleast one interpolation string.
+
 first: second: My name is Ivan Arabadzhiyski
+Interpoltaion strings must be unique.
+
+Interpolation strings cannot be empty.
+
+Interpolation strings must contain only small letters.
+
 "How are YOU? 
  --------------------"
+Key must end with _html.
+
+Value must start and end with '"'.
+
 name: "How are YOU?, Ivan 
  --------------------"
-"How YOU doin' </br>
+Interpolation strings must contain only small letters.
+
+"How YOU doin' 
+
  --------------------"
+Element already in the set.
+
+Element already in the set.
+
+"How YOU doin' 
+
+ --------------------"
+fact: "Do you think DANCING BEARS GETTING TORTURED is important?"
+Element already in the set.
 ```

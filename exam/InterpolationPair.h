@@ -11,6 +11,8 @@ private:
     void validate() override;
     void validateInterpolatedStringsCorrectness(const std::string &s);
 
+    static std::string sequenceStart, sequenceEnd;
+
 protected:
     std::string interpolate(const std::string &value);
 

@@ -3,11 +3,15 @@
 
 void SimplePair::validate()
 {
-    for (auto &&i : key)
+    if (!islower(key.front()))
     {
-        if (!islower(i) && i != '_')
+        throw std::runtime_error("Simple Pair must begin with small letter");
+    }
+    for (size_t i = 1; i < key.size(); i++)
+    {
+        if (!islower(key[i]) && key[i] != '_')
         {
-            throw std::exception();
+            throw std::runtime_error("Simple Pair must contain only small letters and underscore");
         }
     }
 }

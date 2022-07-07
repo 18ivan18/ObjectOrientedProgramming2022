@@ -3,6 +3,8 @@
 #include "TagPair.h"
 #include "ComplexPair.h"
 #include "KNYAML.h"
+#include "KNYAML_resizeable_set.h"
+#include "ResizeableSet.h"
 #include <iostream>
 
 void testSimplePair()
@@ -14,7 +16,7 @@ void testSimplePair()
     }
     catch (const std::exception &e)
     {
-        // std::cerr << e.what() << '\n';
+        std::cerr << e.what() << '\n';
         assert(true);
     }
 
@@ -51,6 +53,7 @@ void testInterpolationPair()
     }
     catch (const std::exception &e)
     {
+        std::cerr << e.what() << '\n';
         assert(true);
     }
 
@@ -61,6 +64,7 @@ void testInterpolationPair()
     }
     catch (const std::exception &e)
     {
+        std::cerr << e.what() << '\n';
         assert(("Can contain more than one interpolation strings", false));
     }
 
@@ -71,6 +75,7 @@ void testInterpolationPair()
     }
     catch (const std::exception &e)
     {
+        std::cerr << e.what() << '\n';
         assert(true);
     }
 
@@ -81,6 +86,7 @@ void testInterpolationPair()
     }
     catch (const std::exception &e)
     {
+        std::cerr << e.what() << '\n';
         assert(true);
     }
 
@@ -91,6 +97,7 @@ void testInterpolationPair()
     }
     catch (const std::exception &e)
     {
+        std::cerr << e.what() << '\n';
         assert(true);
     }
 }
@@ -104,6 +111,7 @@ void testTagPair()
     }
     catch (const std::exception &e)
     {
+        std::cerr << e.what() << '\n';
         assert(("Tag Pair is valid", false));
     }
 
@@ -113,6 +121,7 @@ void testTagPair()
     }
     catch (const std::exception &e)
     {
+        std::cerr << e.what() << '\n';
         assert(true);
     }
 
@@ -122,6 +131,7 @@ void testTagPair()
     }
     catch (const std::exception &e)
     {
+        std::cerr << e.what() << '\n';
         assert(true);
     }
 }
@@ -135,6 +145,7 @@ void testComplexPair()
     }
     catch (const std::exception &e)
     {
+        std::cerr << e.what() << '\n';
         assert(false);
     }
 
@@ -144,6 +155,7 @@ void testComplexPair()
     }
     catch (const std::exception &e)
     {
+        std::cerr << e.what() << '\n';
         assert(true);
     }
 }
@@ -152,12 +164,82 @@ void testKNYAML()
 {
     try
     {
-        KNYAML knyaml({new TagPair("greeting_html", "\"How <b>you</b> doin' </br><br/> <hr/>\"")});
+        KNYAML knyaml({new TagPair("greeting_html", "\"How <b>you</b> doin' <br/><br/> <hr/>\"")});
         knyaml["greeting_html"];
     }
     catch (const std::exception &e)
     {
         assert(false);
+    }
+}
+
+void testResizeableSet()
+{
+    ResizeableSet<int> rs;
+    rs.add(1);
+    rs.add(2);
+    rs.add(3);
+    rs.add(4);
+    assert(rs[2]);
+    assert(!rs[6]);
+    assert(rs.remove(2));
+    assert(!rs[2]);
+    assert(!rs.remove(2));
+    try
+    {
+        rs.add(1);
+        assert(("Cannot add item that already exists", false));
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+        assert(true);
+    }
+
+    struct Tst
+    {
+        int i;
+        double d;
+        bool operator==(const Tst &t)
+        {
+            return i == t.i && abs(d - t.d) < 0.001;
+        }
+    };
+
+    ResizeableSet<Tst> rs1;
+    Tst t1 = {1, 3.14}, t2 = {2, 5.67};
+    rs1.add(t1);
+    rs1.add(t2);
+    try
+    {
+        rs1.add(t1);
+        assert(("Cannot add item that already exists", false));
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+        assert(true);
+    }
+    assert(rs1.remove(t2));
+    assert(!rs1[t2]);
+    assert(!rs1.remove(t2));
+}
+
+void testKNYAMLResizeableSet()
+{
+    try
+    {
+        KNYAMLSpec knyaml({new TagPair("greeting_html", "\"How <b>you</b> doin' <br/><br/> <hr/>\"")});
+        knyaml["greeting_html"];
+        knyaml.add(new ComplexPair("sth_html", "\"Do you think <b>%{fact}</b> is important?\""));
+        knyaml.add(new InterpolationPair("pair", "\"Do you think <b>%{fact}</b> is important?\""));
+        knyaml["sth_html"];
+        assert(knyaml.remove("sth_html"));
+        knyaml.add(new TagPair("greeting_html", "\"Hey, you are looking <b> great!!</b>\""));
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
     }
 }
 
@@ -168,4 +250,6 @@ void runAllTests()
     testTagPair();
     testComplexPair();
     testKNYAML();
+    testResizeableSet();
+    testKNYAMLResizeableSet();
 }

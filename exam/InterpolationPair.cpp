@@ -1,14 +1,15 @@
 #include "InterpolationPair.h"
 #include <iostream>
 
+std::string InterpolationPair::sequenceStart = "%{", InterpolationPair::sequenceEnd = "}";
+
 void InterpolationPair::validate()
 {
-    interpolations = TextProcessor("%{", "}").getAllTags(value);
+    interpolations = TextProcessor(sequenceStart, sequenceEnd).getAllTags(value);
 
     if (interpolations.empty())
     {
-        // must have atleast 1 interpolation
-        throw std::exception();
+        throw std::runtime_error("Interpolation Pair must contain atleast one interpolation string.\n");
     }
 
     for (size_t i = 0; i < interpolations.size(); i++)
@@ -18,8 +19,7 @@ void InterpolationPair::validate()
         {
             if (i != j && interpolations[i].tagString == interpolations[j].tagString)
             {
-                // interpolations must be unique
-                throw std::exception();
+                throw std::runtime_error("Interpoltaion strings must be unique.\n");
             }
         }
     }
@@ -27,17 +27,15 @@ void InterpolationPair::validate()
 
 void InterpolationPair::validateInterpolatedStringsCorrectness(const std::string &s)
 {
-    if (s.size() == 2)
+    if (s.size() == sequenceStart.size())
     {
-        // empty interpolation string
-        throw std::exception();
+        throw std::runtime_error("Interpolation strings cannot be empty.\n");
     }
-    for (size_t i = 2; i < s.size(); i++)
+    for (size_t i = sequenceStart.size(); i < s.size(); i++)
     {
         if (!islower(s[i]))
         {
-            // only small english letters allowed
-            throw std::exception();
+            throw std::runtime_error("Interpolation strings must contain only small letters.\n");
         }
     }
 }
@@ -53,15 +51,14 @@ std::string InterpolationPair::interpolate(const std::string &value)
     std::vector<char[100]> replacements(interpolations.size());
     for (int i = 0; i < interpolations.size(); i++)
     {
-
-        std::cout << interpolations[i].tagString.c_str() + 2 << ": ";
+        std::cout << interpolations[i].tagString.c_str() + sequenceStart.size() << ": ";
         std::cin.getline(replacements[i], 100);
     }
     int interpolationIndex = 0;
     bool print = true;
     for (auto &&i : value)
     {
-        if (i == '%')
+        if (i == sequenceStart.front())
         {
             print = false;
             output += replacements[interpolationIndex++];
@@ -70,7 +67,7 @@ std::string InterpolationPair::interpolate(const std::string &value)
         {
             output += i;
         }
-        if (i == '}')
+        if (i == sequenceEnd.front())
         {
             print = true;
         }

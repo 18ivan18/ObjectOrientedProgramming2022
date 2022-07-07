@@ -1,5 +1,7 @@
 #include "TagPair.h"
 
+std::string TagPair::html = "_html", TagPair::br = "<br/>", TagPair::hr = "<hr/>", TagPair::b = "<b>", TagPair::bClosing = "</b>";
+
 TagPair::TagPair(const std::string &key, const std::string &value) : SimplePair(key, value)
 {
     validate();
@@ -9,20 +11,16 @@ void TagPair::validate()
 {
     if (value.front() != '"' || value.back() != '"')
     {
-        // value must start and end with ""
-        throw std::exception();
+        throw std::runtime_error("Value must start and end with '\"'.\n");
     }
-    if (key.substr(key.length() - 5, 5) != "_html")
+    if (key.size() < html.size() || key.substr(key.length() - html.size(), html.size()) != html)
     {
-        // key must end with _html
-        throw std::exception();
+        throw std::runtime_error("Key must end with _html.\n");
     }
 }
 std::string TagPair::replaceTags(const std::string &value)
 {
     std::string output;
-    const int dashSize = 20;
-    const std::string br = "<br/>", hr = "<hr/>", b = "<b>", bClosing = "</b>";
     std::vector<TextProcessor::Tag> tags = TextProcessor(b, bClosing).getAllTags(value);
     int tagsIndex = 0;
     for (size_t i = 0; i < value.size(); i++)
