@@ -4,6 +4,12 @@
 #include "ResizableSet.h"
 #include <vector>
 
+template <typename T>
+bool comparePtr(T *first, T *second)
+{
+    return *first == *second;
+}
+
 class KNYAMLSpec
 {
 private:

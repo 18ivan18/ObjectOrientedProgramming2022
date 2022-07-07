@@ -1,3 +1,4 @@
+#include <iostream>
 #include <cassert>
 #include "InterpolationPair.h"
 #include "TagPair.h"
@@ -5,7 +6,6 @@
 #include "KNYAML.h"
 #include "KNYAML_resizeable_set.h"
 #include "ResizableSet.h"
-#include <iostream>
 
 void testSimplePair()
 {
@@ -17,13 +17,11 @@ void testSimplePair()
     catch (const std::exception &e)
     {
         std::cerr << e.what() << '\n';
-        assert(true);
     }
 
     try
     {
         SimplePair sp("asd_basd", "Value");
-        assert(true);
     }
     catch (const std::exception &e)
     {
@@ -38,7 +36,6 @@ void testInterpolationPair()
     {
         InterpolationPair ip("asd_basd", "My name is %{username}");
         ip.printValue();
-        assert(true);
     }
     catch (const std::exception &e)
     {
@@ -54,7 +51,6 @@ void testInterpolationPair()
     catch (const std::exception &e)
     {
         std::cerr << e.what() << '\n';
-        assert(true);
     }
 
     try
@@ -76,7 +72,6 @@ void testInterpolationPair()
     catch (const std::exception &e)
     {
         std::cerr << e.what() << '\n';
-        assert(true);
     }
 
     try
@@ -87,7 +82,6 @@ void testInterpolationPair()
     catch (const std::exception &e)
     {
         std::cerr << e.what() << '\n';
-        assert(true);
     }
 
     try
@@ -98,7 +92,6 @@ void testInterpolationPair()
     catch (const std::exception &e)
     {
         std::cerr << e.what() << '\n';
-        assert(true);
     }
 }
 
@@ -122,7 +115,6 @@ void testTagPair()
     catch (const std::exception &e)
     {
         std::cerr << e.what() << '\n';
-        assert(true);
     }
 
     try
@@ -132,7 +124,6 @@ void testTagPair()
     catch (const std::exception &e)
     {
         std::cerr << e.what() << '\n';
-        assert(true);
     }
 }
 
@@ -156,7 +147,6 @@ void testComplexPair()
     catch (const std::exception &e)
     {
         std::cerr << e.what() << '\n';
-        assert(true);
     }
 }
 
@@ -193,7 +183,6 @@ void testResizeableSet()
     catch (const std::exception &e)
     {
         std::cerr << e.what() << '\n';
-        assert(true);
     }
 
     struct Tst
@@ -218,11 +207,26 @@ void testResizeableSet()
     catch (const std::exception &e)
     {
         std::cerr << e.what() << '\n';
-        assert(true);
     }
     assert(rs1.remove(t2));
     assert(!rs1[t2]);
     assert(!rs1.remove(t2));
+
+    ResizableSet<int *> rsIntPtr(8, comparePtr<int>);
+    rsIntPtr.add(new int(5));
+    try
+    {
+        rsIntPtr.add(new int(5));
+        assert(("Cannot add item that already exists", false));
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+    }
+    for (size_t i = 0; i < rsIntPtr.getSize(); i++)
+    {
+        delete rsIntPtr.getData()[i];
+    }
 }
 
 void testKNYAMLResizeableSet()
@@ -241,7 +245,6 @@ void testKNYAMLResizeableSet()
     try
     {
         KNYAMLSpec knyaml({new TagPair("fact_html", "\"How <b>you</b> doin' <br/><br/> <hr/>\""), new ComplexPair("fact_html", "\"Do you think <b>%{fact}</b> is important?\"")});
-        // here it should throw an error;
     }
     catch (const std::exception &e)
     {

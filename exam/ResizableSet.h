@@ -5,6 +5,12 @@
 const int defaultCapacity = 8;
 
 template <typename T>
+bool defaultComparator(T first, T second)
+{
+    return first == second;
+}
+
+template <typename T>
 class ResizableSet
 {
 protected:
@@ -13,9 +19,10 @@ protected:
 
     int find(const T &elem);
     void resize(int newCapacity);
+    bool (*comp)(T, T);
 
 public:
-    ResizableSet(int capacity = defaultCapacity);
+    ResizableSet(int capacity = defaultCapacity, bool (*comp)(T, T) = defaultComparator<T>);
     ResizableSet(const ResizableSet &other) = delete;
     ResizableSet &operator=(const ResizableSet &other) = delete;
     ~ResizableSet();
@@ -60,7 +67,7 @@ int ResizableSet<T>::find(const T &elem)
 {
     for (size_t i = 0; i < size; i++)
     {
-        if (data[i] == elem)
+        if (this->comp(data[i], elem))
         {
             return i;
         }
@@ -82,7 +89,7 @@ void ResizableSet<T>::resize(int newCapacity)
 }
 
 template <typename T>
-ResizableSet<T>::ResizableSet(int capacity) : capacity{capacity}, size{0}, data{new T[capacity]} {}
+ResizableSet<T>::ResizableSet(int capacity, bool (*comp)(T, T)) : capacity{capacity}, size{0}, data{new T[capacity]}, comp{comp} {}
 
 template <typename T>
 ResizableSet<T>::~ResizableSet()
