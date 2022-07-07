@@ -98,6 +98,7 @@ Ivan
 Ivan
 Arabadzhiyski
 Ivan
+Dancing bears getting tortured
 ```
 ## Expected output
 ```
@@ -129,9 +130,25 @@ Element already in the set.
 
 Element already in the set.
 
+Element already in the set.
+
+fact: "Do you think DANCING BEARS GETTING TORTURED is important?"
+Element already in the set.
+```
+
+or 
+
+```
+username: My name is Ivan
+first: second: My name is Ivan Arabadzhiyski
+"How are YOU? 
+ --------------------"
+name: "How are YOU?, Ivan 
+ --------------------"
 "How YOU doin' 
 
  --------------------"
 fact: "Do you think DANCING BEARS GETTING TORTURED is important?"
-Element already in the set.
 ```
+
+without the error messages
