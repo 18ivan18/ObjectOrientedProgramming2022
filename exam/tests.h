@@ -4,7 +4,7 @@
 #include "ComplexPair.h"
 #include "KNYAML.h"
 #include "KNYAML_resizeable_set.h"
-#include "ResizeableSet.h"
+#include "ResizableSet.h"
 #include <iostream>
 
 void testSimplePair()
@@ -175,7 +175,7 @@ void testKNYAML()
 
 void testResizeableSet()
 {
-    ResizeableSet<int> rs;
+    ResizableSet<int> rs;
     rs.add(1);
     rs.add(2);
     rs.add(3);
@@ -206,7 +206,7 @@ void testResizeableSet()
         }
     };
 
-    ResizeableSet<Tst> rs1;
+    ResizableSet<Tst> rs1;
     Tst t1 = {1, 3.14}, t2 = {2, 5.67};
     rs1.add(t1);
     rs1.add(t2);
@@ -229,13 +229,19 @@ void testKNYAMLResizeableSet()
 {
     try
     {
-        KNYAMLSpec knyaml({new TagPair("greeting_html", "\"How <b>you</b> doin' <br/><br/> <hr/>\"")});
-        knyaml["greeting_html"];
-        knyaml.add(new ComplexPair("sth_html", "\"Do you think <b>%{fact}</b> is important?\""));
-        knyaml.add(new InterpolationPair("pair", "\"Do you think <b>%{fact}</b> is important?\""));
-        knyaml["sth_html"];
-        assert(knyaml.remove("sth_html"));
-        knyaml.add(new TagPair("greeting_html", "\"Hey, you are looking <b> great!!</b>\""));
+        KNYAMLSpec knyaml({new TagPair("greeting_html", "\"How <b>you</b> doin' <br/><br/> <hr/>\""), new ComplexPair("fact_html", "\"Do you think <b>%{fact}</b> is important?\"")});
+        knyaml["fact_html"];
+    }
+    catch (const std::exception &e)
+    {
+        std::cerr << e.what() << '\n';
+        assert(false);
+    }
+
+    try
+    {
+        KNYAMLSpec knyaml({new TagPair("fact_html", "\"How <b>you</b> doin' <br/><br/> <hr/>\""), new ComplexPair("fact_html", "\"Do you think <b>%{fact}</b> is important?\"")});
+        // here it should throw an error;
     }
     catch (const std::exception &e)
     {

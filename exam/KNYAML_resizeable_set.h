@@ -1,15 +1,14 @@
 #ifndef KNYAML_SPEC_H
 #define KNYAML_SPEC_H
 #include "SimplePair.h"
-#include "ResizeableSet.h"
+#include "ResizableSet.h"
 #include <vector>
 
-class KNYAMLSpec : public ResizeableSet<SimplePair *>
+class KNYAMLSpec
 {
 private:
+    ResizableSet<SimplePair *> pairs;
     void free();
-    bool remove(int idx);
-    int find(SimplePair *const &elem) override;
 
 public:
     KNYAMLSpec(std::vector<SimplePair *> pairs);
@@ -18,8 +17,6 @@ public:
     ~KNYAMLSpec();
 
     void operator[](const std::string &key);
-    bool remove(SimplePair *const &el) override;
-    bool remove(const std::string &key);
 };
 
 #endif

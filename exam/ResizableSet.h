@@ -5,43 +5,58 @@
 const int defaultCapacity = 8;
 
 template <typename T>
-class ResizeableSet
+class ResizableSet
 {
 protected:
     int size, capacity;
     T *data;
 
-    virtual int find(const T &elem);
+    int find(const T &elem);
     void resize(int newCapacity);
 
 public:
-    ResizeableSet(int capacity = defaultCapacity);
-    ResizeableSet(const ResizeableSet &other) = delete;
-    ResizeableSet &operator=(const ResizeableSet &other) = delete;
-    ~ResizeableSet();
+    ResizableSet(int capacity = defaultCapacity);
+    ResizableSet(const ResizableSet &other) = delete;
+    ResizableSet &operator=(const ResizableSet &other) = delete;
+    ~ResizableSet();
 
     bool empty();
 
     bool operator[](const T &el);
 
     void add(const T &el);
-    virtual bool remove(const T &el);
+    bool remove(const T &el);
+
+    T *getData() const;
+    int getSize() const;
 };
 
 template <typename T>
-bool ResizeableSet<T>::empty()
+bool ResizableSet<T>::empty()
 {
     return size == 0;
 }
 
 template <typename T>
-bool ResizeableSet<T>::operator[](const T &el)
+T *ResizableSet<T>::getData() const
+{
+    return data;
+}
+
+template <typename T>
+int ResizableSet<T>::getSize() const
+{
+    return size;
+}
+
+template <typename T>
+bool ResizableSet<T>::operator[](const T &el)
 {
     return find(el) != -1;
 }
 
 template <typename T>
-int ResizeableSet<T>::find(const T &elem)
+int ResizableSet<T>::find(const T &elem)
 {
     for (size_t i = 0; i < size; i++)
     {
@@ -52,8 +67,9 @@ int ResizeableSet<T>::find(const T &elem)
     }
     return -1;
 }
+
 template <typename T>
-void ResizeableSet<T>::resize(int newCapacity)
+void ResizableSet<T>::resize(int newCapacity)
 {
     capacity = newCapacity;
     T *data = new T[capacity];
@@ -66,16 +82,16 @@ void ResizeableSet<T>::resize(int newCapacity)
 }
 
 template <typename T>
-ResizeableSet<T>::ResizeableSet(int capacity) : capacity{capacity}, size{0}, data{new T[capacity]} {}
+ResizableSet<T>::ResizableSet(int capacity) : capacity{capacity}, size{0}, data{new T[capacity]} {}
 
 template <typename T>
-ResizeableSet<T>::~ResizeableSet()
+ResizableSet<T>::~ResizableSet()
 {
     delete[] data;
 }
 
 template <typename T>
-void ResizeableSet<T>::add(const T &el)
+void ResizableSet<T>::add(const T &el)
 {
     if (size == capacity)
     {
@@ -90,7 +106,7 @@ void ResizeableSet<T>::add(const T &el)
 }
 
 template <typename T>
-bool ResizeableSet<T>::remove(const T &el)
+bool ResizableSet<T>::remove(const T &el)
 {
     int idx = find(el);
     if (idx == -1)

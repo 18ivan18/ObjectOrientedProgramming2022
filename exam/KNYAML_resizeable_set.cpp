@@ -1,19 +1,19 @@
 #include "KNYAML_resizeable_set.h"
 #include <iostream>
 
-KNYAMLSpec::KNYAMLSpec(std::vector<SimplePair *> pairs) : ResizeableSet()
+KNYAMLSpec::KNYAMLSpec(std::vector<SimplePair *> pairs)
 {
     for (size_t i = 0; i < pairs.size(); i++)
     {
-        this->add(pairs[i]->clone());
+        this->pairs.add(pairs[i]->clone());
     }
 }
 
-KNYAMLSpec::KNYAMLSpec(const KNYAMLSpec &other) : ResizeableSet()
+KNYAMLSpec::KNYAMLSpec(const KNYAMLSpec &other)
 {
-    for (size_t i = 0; i < other.size; i++)
+    for (size_t i = 0; i < other.pairs.getSize(); i++)
     {
-        this->add(other.data[i]->clone());
+        this->pairs.add(other.pairs.getData()[i]);
     }
 }
 
@@ -22,12 +22,9 @@ KNYAMLSpec &KNYAMLSpec::operator=(const KNYAMLSpec &rhs)
     if (this != &rhs)
     {
         free();
-        capacity = defaultCapacity;
-        data = new SimplePair *[capacity];
-
-        for (size_t i = 0; i < rhs.size; i++)
+        for (size_t i = 0; i < rhs.pairs.getSize(); i++)
         {
-            this->add(rhs.data[i]->clone());
+            this->pairs.add(rhs.pairs.getData()[i]);
         }
     }
     return *this;
@@ -35,14 +32,10 @@ KNYAMLSpec &KNYAMLSpec::operator=(const KNYAMLSpec &rhs)
 
 void KNYAMLSpec::free()
 {
-    for (size_t i = 0; i < size; i++)
+    for (size_t i = 0; i < pairs.getSize(); i++)
     {
-        delete data[i];
+        delete pairs.getData()[i];
     }
-
-    delete[] data;
-    data = nullptr;
-    size = 0;
 }
 
 KNYAMLSpec::~KNYAMLSpec()
@@ -52,59 +45,11 @@ KNYAMLSpec::~KNYAMLSpec()
 
 void KNYAMLSpec::operator[](const std::string &key)
 {
-    for (size_t i = 0; i < size; i++)
+    for (size_t i = 0; i < pairs.getSize(); i++)
     {
-        if (*data[i] == key)
+        if (*pairs.getData()[i] == key)
         {
-            data[i]->printValue();
+            pairs.getData()[i]->printValue();
         }
     }
-}
-
-int KNYAMLSpec::find(SimplePair *const &elem)
-{
-    for (size_t i = 0; i < size; i++)
-    {
-        if (*data[i] == *elem)
-        {
-            return i;
-        }
-    }
-    return -1;
-}
-
-bool KNYAMLSpec::remove(int idx)
-{
-    if (idx == -1)
-    {
-        return false;
-    }
-    delete data[idx];
-    for (size_t i = idx; i < size - 1; i++)
-    {
-        data[i] = data[i + 1];
-    }
-    data[size - 1] = nullptr;
-    size--;
-
-    return true;
-}
-
-bool KNYAMLSpec::remove(const std::string &key)
-{
-    int idx = -1;
-    for (size_t i = 0; i < size; i++)
-    {
-        if (*data[i] == key)
-        {
-            idx = i;
-            break;
-        }
-    }
-    return remove(idx);
-}
-
-bool KNYAMLSpec::remove(SimplePair *const &el)
-{
-    return remove(find(el));
 }
