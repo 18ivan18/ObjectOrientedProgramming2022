@@ -22,7 +22,8 @@ protected:
     bool (*comp)(T, T);
 
 public:
-    ResizableSet(int capacity = defaultCapacity, bool (*comp)(T, T) = defaultComparator<T>);
+    ResizableSet(int capacity = defaultCapacity);
+    ResizableSet(bool (*comp)(T, T));
     ResizableSet(const ResizableSet &other) = delete;
     ResizableSet &operator=(const ResizableSet &other) = delete;
     ~ResizableSet();
@@ -89,7 +90,12 @@ void ResizableSet<T>::resize(int newCapacity)
 }
 
 template <typename T>
-ResizableSet<T>::ResizableSet(int capacity, bool (*comp)(T, T)) : capacity{capacity}, size{0}, data{new T[capacity]}, comp{comp} {}
+ResizableSet<T>::ResizableSet(int capacity) : capacity{capacity}, size{0}, data{new T[capacity]}, comp{defaultComparator<T>} {}
+
+template <typename T>
+ResizableSet<T>::ResizableSet(bool (*comp)(T, T)) : capacity{defaultCapacity}, size{0}, data{new T[capacity]}, comp{comp}
+{
+}
 
 template <typename T>
 ResizableSet<T>::~ResizableSet()

@@ -212,7 +212,7 @@ void testResizeableSet()
     assert(!rs1[t2]);
     assert(!rs1.remove(t2));
 
-    ResizableSet<int *> rsIntPtr(8, comparePtr<int>);
+    ResizableSet<int *> rsIntPtr(comparePtr<int>);
     rsIntPtr.add(new int(5));
     try
     {

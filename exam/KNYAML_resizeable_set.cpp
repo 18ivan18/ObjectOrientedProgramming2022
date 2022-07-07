@@ -1,7 +1,7 @@
 #include "KNYAML_resizeable_set.h"
 #include <iostream>
 
-KNYAMLSpec::KNYAMLSpec(std::vector<SimplePair *> pairs) : pairs(2, comparePtr<SimplePair>)
+KNYAMLSpec::KNYAMLSpec(std::vector<SimplePair *> pairs) : pairs(comparePtr<SimplePair>)
 {
     for (size_t i = 0; i < pairs.size(); i++)
     {
@@ -9,7 +9,7 @@ KNYAMLSpec::KNYAMLSpec(std::vector<SimplePair *> pairs) : pairs(2, comparePtr<Si
     }
 }
 
-KNYAMLSpec::KNYAMLSpec(const KNYAMLSpec &other) : pairs(2, comparePtr<SimplePair>)
+KNYAMLSpec::KNYAMLSpec(const KNYAMLSpec &other) : pairs(comparePtr<SimplePair>)
 {
     for (size_t i = 0; i < other.pairs.getSize(); i++)
     {
